@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">SubmissionStoryApp</string>
+    <!--  Title Action Bar  -->
+    <string name="title_login">Login</string>
+    <string name="title_register">Register</string>
+    <string name="title_story_list">List Story</string>
+    <string name="title_story_detail">Detail</string>
+    <string name="title_story_add">Add New Story</string>
+
+    <!--    Label Menu      -->
+    <string name="label_logout">Logout</string>
+    <string name="label_add_story">Add Your Story</string>
+    <string name="label_change_language">Change Language</string>
+
+    <!--    Form Authentication     -->
+    <string name="auth_login_page_title">Welcome Back to Story Application</string>
+    <string name="auth_regis_page_title">Register</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_name">Name</string>
+    <string name="label_btn_login">Login</string>
+    <string name="label_btn_register">Register</string>
+    <string name="label_btn_or">OR</string>
+    <string name="hint_password">Input your password</string>
+    <string name="hint_email">Input your email</string>
+    <string name="hint_name">Input your name</string>
+
+    <string name="error_camera_take">Failed to Take a Picture.</string>
+    <string name="error_camera_open">Failed Open Camera</string>
+    <string name="error_story_add">Please choose or take a picture</string>
+    <string name="error_permission">Permission not authorized</string>
+    <string name="error_input">Please fill input</string>
+    <string name="error_input_email">Please fill with email format</string>
+    <string name="error_input_password">Please fill input</string>
+    <string name="label_card_username">Username</string>
+    <string name="capture_image">Take a Picture</string>
+    <string name="switch_camera">Switch Camera</string>
+    <string name="placeholder_name">Name</string>
+    <string name="placeholder_desc">Description</string>
+    <string name="placeholder_post_date">Post Date</string>
+    <string name="label_btn_camera">Camera</string>
+    <string name="label_btn_gallery">Gallery</string>
+    <string name="label_btn_upload">Upload</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="label_btn_show_maps">Show On Maps</string>
+    <string name="retry">Coba lagi</string>
+</resources>

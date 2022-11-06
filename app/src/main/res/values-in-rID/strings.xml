@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SubmissionStoryApp</string>
+    <!--  Title Action Bar  -->
+    <string name="title_login">Masuk</string>
+    <string name="title_register">Daftar</string>
+    <string name="title_story_list">Daftar Cerita</string>
+    <string name="title_story_detail">Detil Cerita</string>
+    <string name="title_story_add">Tambah Cerita</string>
+
+    <!--    Label Menu    -->
+    <string name="label_logout">Logout</string>
+    <string name="label_add_story">Add Your Story</string>
+    <string name="label_change_language">Change Language</string>
+
+    <!--    Form Authentication     -->
+    <string name="auth_login_page_title">Selamat Datang Kembali</string>
+    <string name="auth_regis_page_title">Daftar</string>
+    <string name="label_email">Alamat Email</string>
+    <string name="label_password">Kata Sandi</string>
+    <string name="label_name">Nama</string>
+    <string name="label_btn_login">Masuk</string>
+    <string name="label_btn_register">Daftar</string>
+    <string name="label_btn_or">ATAU</string>
+    <string name="hint_password">Masukan Password Anda</string>
+    <string name="hint_email">Masukan Alamat Email Anda</string>
+    <string name="hint_name">Masukan Nama Anda</string>
+    <string name="error_camera_take">Gagal Mengambil Gambar.</string>
+    <string name="error_camera_open">Gagal Membuka Kamera</string>
+    <string name="error_story_add">Mohon pilih file gambar atau ambil gambar dari kamera</string>
+    <string name="error_permission">Permohonan tidak diijinkan</string>
+    <string name="error_input">Mohon diisi</string>
+    <string name="error_input_email">Mohon diisi dengan format email</string>
+    <string name="error_input_password">Minimal 6 Huruf / Karakter</string>
+    <string name="label_card_username">Nama Pengguna</string>
+    <string name="capture_image">Ambil Gambar</string>
+    <string name="switch_camera">Ganti Kamera</string>
+    <string name="placeholder_name">Nama</string>
+    <string name="placeholder_desc">Deskripsi</string>
+    <string name="placeholder_post_date">Tanggal Unggah</string>
+    <string name="label_btn_camera">Kamera</string>
+    <string name="label_btn_gallery">Galeri</string>
+    <string name="label_btn_upload">Unggah</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="label_btn_show_maps">Tampilkan Dalam Maps</string>
+    <string name="retry">Retry</string>
+</resources>
