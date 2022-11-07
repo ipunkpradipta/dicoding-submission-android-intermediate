@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.database
+package com.ipunkpradipta.submissionstoryapp.data.local.room
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource

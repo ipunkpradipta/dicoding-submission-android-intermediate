@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.network
+package com.ipunkpradipta.submissionstoryapp.data.remote.retrofit
 
 import com.ipunkpradipta.submissionstoryapp.BuildConfig
 import okhttp3.OkHttpClient

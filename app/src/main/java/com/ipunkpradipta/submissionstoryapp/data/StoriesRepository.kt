@@ -1,13 +1,12 @@
 package com.ipunkpradipta.submissionstoryapp.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.*
-import com.ipunkpradipta.submissionstoryapp.database.StoriesDatabase
-import com.ipunkpradipta.submissionstoryapp.network.ApiService
+import com.ipunkpradipta.submissionstoryapp.data.local.room.StoriesDatabase
+import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiService
 import com.ipunkpradipta.submissionstoryapp.network.StoryItem
 
-class StoriesRepository(private val storiesDatabase: StoriesDatabase,private val apiService: ApiService) {
+class StoriesRepository(private val storiesDatabase: StoriesDatabase, private val apiService: ApiService) {
     @OptIn(ExperimentalPagingApi::class)
     fun getStories(token:String):LiveData<PagingData<StoryItem>>{
         return Pager(

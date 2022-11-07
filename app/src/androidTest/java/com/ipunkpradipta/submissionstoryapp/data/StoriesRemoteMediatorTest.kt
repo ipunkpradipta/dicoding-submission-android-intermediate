@@ -4,8 +4,8 @@ import androidx.paging.*
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.ipunkpradipta.submissionstoryapp.database.StoriesDatabase
-import com.ipunkpradipta.submissionstoryapp.network.ApiService
+import com.ipunkpradipta.submissionstoryapp.data.local.room.StoriesDatabase
+import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiService
 import com.ipunkpradipta.submissionstoryapp.network.StoriesResponse
 import com.ipunkpradipta.submissionstoryapp.network.StoryItem
 import kotlinx.coroutines.ExperimentalCoroutinesApi

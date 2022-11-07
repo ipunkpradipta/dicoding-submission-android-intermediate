@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.database
+package com.ipunkpradipta.submissionstoryapp.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -19,13 +20,14 @@ import com.ipunkpradipta.submissionstoryapp.R
 import com.ipunkpradipta.submissionstoryapp.network.LoginRequest
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityLoginBinding
 import com.ipunkpradipta.submissionstoryapp.MainViewModel
+import com.ipunkpradipta.submissionstoryapp.ui.ViewModelFactoryMaps
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "authentication")
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var authViewModel: AuthViewModel
+    private val authViewModel:AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,22 +44,6 @@ class LoginActivity : AppCompatActivity() {
                 handleClickButtonLogin()
             }
         }
-
-        authViewModel = AuthViewModel()
-
-        authViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
-
-        authViewModel.snackbarText.observe(this) {
-            it.getContentIfNotHandled()?.let { message ->
-                showNotification(message)
-            }
-        }
-
-        authViewModel.loginToken.observe(this) {
-            handleOnSaveToken(it)
-        }
     }
 
     private fun handleClickButtonRegist() {
@@ -70,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.edLoginPassword.text
         if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             val request = LoginRequest(email.toString(), password.toString())
-            authViewModel.login(request)
+            authViewModel.login(loginRequest = request)
         } else {
             Toast.makeText(this@LoginActivity,
                 resources.getString(R.string.error_input),

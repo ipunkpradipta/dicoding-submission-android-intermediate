@@ -1,9 +1,10 @@
-package com.ipunkpradipta.submissionstoryapp.database
+package com.ipunkpradipta.submissionstoryapp.data.local.room
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.ipunkpradipta.submissionstoryapp.data.local.entity.RemoteKeys
 
 @Dao
 interface RemoteKeysDao {

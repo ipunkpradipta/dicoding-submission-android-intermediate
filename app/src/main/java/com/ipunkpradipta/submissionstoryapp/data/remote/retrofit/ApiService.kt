@@ -1,5 +1,7 @@
-package com.ipunkpradipta.submissionstoryapp.network
+package com.ipunkpradipta.submissionstoryapp.data.remote.retrofit
 
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
+import com.ipunkpradipta.submissionstoryapp.network.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -8,9 +10,7 @@ import retrofit2.http.*
 
 interface ApiService {
     @POST("register")
-    fun postRegister(
-        @Body body: RegisterRequest,
-    ): Call<DefaultResponse>
+    suspend fun postRegister(@Body body: RegisterRequest): DefaultResponse
 
     @POST("login")
     fun postLogin(

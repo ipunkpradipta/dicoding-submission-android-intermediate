@@ -4,6 +4,8 @@ import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ipunkpradipta.submissionstoryapp.data.StoriesRepository
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
+import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiConfig
 import com.ipunkpradipta.submissionstoryapp.network.*
 import com.ipunkpradipta.submissionstoryapp.utils.Event
 import com.ipunkpradipta.submissionstoryapp.utils.reduceFileImage

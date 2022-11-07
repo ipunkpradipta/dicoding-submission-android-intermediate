@@ -6,9 +6,9 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.ipunkpradipta.submissionstoryapp.database.RemoteKeys
-import com.ipunkpradipta.submissionstoryapp.database.StoriesDatabase
-import com.ipunkpradipta.submissionstoryapp.network.ApiService
+import com.ipunkpradipta.submissionstoryapp.data.local.entity.RemoteKeys
+import com.ipunkpradipta.submissionstoryapp.data.local.room.StoriesDatabase
+import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiService
 import com.ipunkpradipta.submissionstoryapp.network.StoryItem
 
 @OptIn(ExperimentalPagingApi::class)

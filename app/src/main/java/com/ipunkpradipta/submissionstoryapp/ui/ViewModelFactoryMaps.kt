@@ -10,7 +10,7 @@ class ViewModelFactoryMaps(private val context: Context) : ViewModelProvider.New
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MapsViewModel::class.java)) {
-            return MapsViewModel(Injection.provideRepository(context)) as T
+            return MapsViewModel(Injection.provideStoriesRepository(context)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
