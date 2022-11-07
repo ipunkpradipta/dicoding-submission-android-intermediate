@@ -34,41 +34,45 @@ class RegisterActivity : AppCompatActivity() {
         binding.apply {
             registerButton.setOnClickListener{
                 it.hideKeyboard()
-                val name  = binding.edRegisterName.text
-                val password = binding.edLoginPassword.text
-                val email = binding.edLoginEmail.text
-                if(!email.isNullOrEmpty() && !password.isNullOrEmpty() && !name.isNullOrEmpty()){
-                    val request = RegisterRequest(name.toString(),email.toString(),password.toString())
-//                    authViewModel.register(request)
-                    lifecycleScope.launch {
-                        authViewModel.postRegister(request).observe(this@RegisterActivity){ result->
-                            if(result != null){
-                                when(result){
-                                    is Result.Loading -> {
-                                        binding.progressBar.visibility = View.VISIBLE
-                                    }
-                                    is Result.Success -> {
-                                        binding.progressBar.visibility = View.GONE
-                                        val response = result.data
-                                        showNotification(response.message)
-                                        if(!response.error){
-                                            startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
-                                        }
-                                        Log.d("RegisterActivity","response: $response")
-                                    }
-                                    is Result.Error -> {
-                                        binding.progressBar.visibility = View.GONE
+                handleRegisterButton()
+            }
+        }
+    }
 
-//                                        Log.d("RegisterActivity","response: ${Result.Error()}")
-                                    }
+    private fun handleRegisterButton(){
+        val name  = binding.edRegisterName.text
+        val password = binding.edLoginPassword.text
+        val email = binding.edLoginEmail.text
+        if(!email.isNullOrEmpty() && !password.isNullOrEmpty() && !name.isNullOrEmpty()){
+            val request = RegisterRequest(name.toString(),email.toString(),password.toString())
+            lifecycleScope.launch {
+                authViewModel.postRegister(request).observe(this@RegisterActivity){ result->
+                    if(result != null){
+                        Log.d("RegisterActivity","result: $result")
+                        when(result){
+                            is Result.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                            }
+                            is Result.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                val response = result.data
+                                showNotification(response.message)
+                                if(!response.error){
+                                    startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
                                 }
+                                Log.d("RegisterActivity","response: $response")
+                            }
+                            is Result.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                showNotification(result.error)
+                                Log.d("RegisterActivity","responseError: ${result.error}")
                             }
                         }
                     }
-                }else{
-                    Toast.makeText(this@RegisterActivity, resources.getString(R.string.error_input), Toast.LENGTH_SHORT).show()
                 }
             }
+        }else{
+            Toast.makeText(this@RegisterActivity, resources.getString(R.string.error_input), Toast.LENGTH_SHORT).show()
         }
     }
 

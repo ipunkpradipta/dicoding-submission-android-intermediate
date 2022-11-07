@@ -29,7 +29,7 @@
     <string name="error_camera_open">Gagal Membuka Kamera</string>
     <string name="error_story_add">Mohon pilih file gambar atau ambil gambar dari kamera</string>
     <string name="error_permission">Permohonan tidak diijinkan</string>
-    <string name="error_input">Mohon diisi</string>
+    <string name="error_input">Mohon untuk setiap kolom diisi</string>
     <string name="error_input_email">Mohon diisi dengan format email</string>
     <string name="error_input_password">Minimal 6 Huruf / Karakter</string>
     <string name="label_card_username">Nama Pengguna</string>
