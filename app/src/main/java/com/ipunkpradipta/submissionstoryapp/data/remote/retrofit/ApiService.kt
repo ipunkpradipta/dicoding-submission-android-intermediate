@@ -13,9 +13,7 @@ interface ApiService {
     suspend fun postRegister(@Body body: RegisterRequest): DefaultResponse
 
     @POST("login")
-    fun postLogin(
-        @Body body: LoginRequest,
-    ): Call<LoginResponse>
+    suspend fun postLogin(@Body body: LoginRequest): LoginResponse
 
     @GET("stories")
     suspend fun getStories(

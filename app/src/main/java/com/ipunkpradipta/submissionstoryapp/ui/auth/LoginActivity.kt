@@ -10,30 +10,36 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.ipunkpradipta.submissionstoryapp.data.AuthPreferences
 import com.ipunkpradipta.submissionstoryapp.MainActivity
 import com.ipunkpradipta.submissionstoryapp.R
 import com.ipunkpradipta.submissionstoryapp.network.LoginRequest
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityLoginBinding
-import com.ipunkpradipta.submissionstoryapp.MainViewModel
-import com.ipunkpradipta.submissionstoryapp.ui.ViewModelFactoryMaps
+import com.ipunkpradipta.submissionstoryapp.data.Result
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "authentication")
-
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val authViewModel:AuthViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = resources.getString(R.string.title_login)
+
+        authViewModel.getTokenAuth().observe(this@LoginActivity){result->
+            Log.d("LoginActivity","tokenResult:$result")
+            if(result.isNotEmpty()){
+                val intentAuth = Intent(this@LoginActivity, MainActivity::class.java)
+                intentAuth.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intentAuth,ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
+            }
+        }
 
         binding.apply {
             registerButton.setOnClickListener {
@@ -56,7 +62,27 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.edLoginPassword.text
         if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             val request = LoginRequest(email.toString(), password.toString())
-            authViewModel.login(loginRequest = request)
+            lifecycleScope.launch{
+                authViewModel.postLogin(request).observe(this@LoginActivity){result->
+                    Log.d("LoginActivity","result:$result")
+                    if(result != null){
+                        when(result){
+                            is Result.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                            }
+                            is Result.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                showNotification(result.error)
+                            }
+                            is Result.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                showNotification(result.data.message)
+                                handleOnSaveToken(result.data.loginResult.token)
+                            }
+                        }
+                    }
+                }
+            }
         } else {
             Toast.makeText(this@LoginActivity,
                 resources.getString(R.string.error_input),
@@ -65,26 +91,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun handleOnSaveToken(tokenString: String) {
-        val authPref = AuthPreferences.getInstance(dataStore)
-        val mainViewModel = MainViewModel(authPref)
-//            ViewModelProvider(this, ViewModelFactory(authPref))[MainViewModel::class.java]
-        if (tokenString.isEmpty()) {
-            Log.d("TOKEN_KOSONG", tokenString)
-        } else {
-            Log.d("TOKEN_ISI", tokenString)
-            mainViewModel.setTokenString(tokenString)
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent,
-                ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
-        }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
+        lifecycleScope.launch{
+            authViewModel.saveTokenAuth(tokenString)
         }
     }
 
