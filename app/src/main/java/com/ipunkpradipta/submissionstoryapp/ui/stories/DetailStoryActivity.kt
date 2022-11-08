@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.ui
+package com.ipunkpradipta.submissionstoryapp.ui.stories
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

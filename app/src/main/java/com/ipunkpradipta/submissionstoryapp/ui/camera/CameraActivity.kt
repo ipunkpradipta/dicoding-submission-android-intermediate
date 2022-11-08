@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.ui
+package com.ipunkpradipta.submissionstoryapp.ui.camera
 
 import android.content.Intent
 import android.os.Build
@@ -15,7 +15,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.ipunkpradipta.submissionstoryapp.R
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityCameraBinding
-import com.ipunkpradipta.submissionstoryapp.ui.NewStory
+import com.ipunkpradipta.submissionstoryapp.ui.stories.NewStory
 import com.ipunkpradipta.submissionstoryapp.utils.createFile
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors

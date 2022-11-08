@@ -1,7 +1,12 @@
 package com.ipunkpradipta.submissionstoryapp
 
+import com.ipunkpradipta.submissionstoryapp.data.PostStoriesRequest
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
 import com.ipunkpradipta.submissionstoryapp.network.RegisterRequest
 import com.ipunkpradipta.submissionstoryapp.network.StoryItem
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 object StoriesDummy {
     fun generateDummyStoriesEntity():List<StoryItem>{
@@ -20,5 +25,18 @@ object StoriesDummy {
             storiesList.add(story)
         }
         return storiesList
+    }
+
+    fun generateDummyPostStories():PostStoriesRequest{
+        val token = "token"
+        val descRequestBody = "desc".toRequestBody("text/plain".toMediaType())
+        val latRequestBody = "3.5429957".toRequestBody("text/plain".toMediaType())
+        val lonRequestBody = "98.6584".toRequestBody("text/plain".toMediaType())
+        val file = MultipartBody.Part.create("photo".toRequestBody())
+        return PostStoriesRequest(token,descRequestBody,file,latRequestBody,lonRequestBody)
+    }
+
+    fun generateDummyResponsePostStories():DefaultResponse{
+        return DefaultResponse(false,"Upload Success")
     }
 }

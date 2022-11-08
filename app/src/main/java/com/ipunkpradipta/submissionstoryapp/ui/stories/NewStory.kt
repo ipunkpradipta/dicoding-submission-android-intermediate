@@ -1,7 +1,6 @@
-package com.ipunkpradipta.submissionstoryapp.ui
+package com.ipunkpradipta.submissionstoryapp.ui.stories
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -16,21 +15,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.ipunkpradipta.submissionstoryapp.MainActivity
 import com.ipunkpradipta.submissionstoryapp.R
-import com.ipunkpradipta.submissionstoryapp.ui.auth.LoginActivity
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityNewStoryBinding
-import com.ipunkpradipta.submissionstoryapp.data.AuthPreferences
 import com.ipunkpradipta.submissionstoryapp.data.PostStoriesRequest
 import com.ipunkpradipta.submissionstoryapp.data.Result
+import com.ipunkpradipta.submissionstoryapp.ui.ViewModelFactory
 import com.ipunkpradipta.submissionstoryapp.ui.auth.AuthViewModel
-import com.ipunkpradipta.submissionstoryapp.utils.animateVisibility
+import com.ipunkpradipta.submissionstoryapp.ui.camera.CameraActivity
+import com.ipunkpradipta.submissionstoryapp.utils.reduceFileImage
 import com.ipunkpradipta.submissionstoryapp.utils.rotateBitmap
 import com.ipunkpradipta.submissionstoryapp.utils.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
@@ -199,8 +195,8 @@ class NewStory : AppCompatActivity() {
             val descRequestBody = etDesc.text.toString().toRequestBody("text/plain".toMediaType())
             val latRequestBody = latitude.toString().toRequestBody("text/plain".toMediaType())
             val lonRequestBody = longitude.toString().toRequestBody("text/plain".toMediaType())
-            val file = getFile!!
 
+            val file = reduceFileImage(getFile!! as File)
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "photo",

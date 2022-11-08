@@ -12,7 +12,7 @@ import androidx.core.util.Pair
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ipunkpradipta.submissionstoryapp.ui.DetailStoryActivity
+import com.ipunkpradipta.submissionstoryapp.ui.stories.DetailStoryActivity
 import com.ipunkpradipta.submissionstoryapp.R
 import com.ipunkpradipta.submissionstoryapp.network.StoryItem
 import com.ipunkpradipta.submissionstoryapp.utils.loadImage

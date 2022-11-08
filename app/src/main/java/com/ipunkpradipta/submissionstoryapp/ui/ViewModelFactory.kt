@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ipunkpradipta.submissionstoryapp.di.Injection
+import com.ipunkpradipta.submissionstoryapp.ui.stories.StoriesViewModel
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
 

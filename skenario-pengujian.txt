@@ -13,3 +13,11 @@ StoriesViewModel
         -Memastikan method yang dipanggil adalah StoriesViewModel.getStories
         -Memastikan data story tidak null
         -Memastikan total data asli dan dummy sama
+    2.Ketika Upload Image / Post Story Success
+        -Memastikan mengembalikan Result.Success
+    3.Ketika Upload Image / Post Story Failed
+        -Memastikan mengembalikan Result.Error
+
+MapsViewModel
+    1.Ketike Get Stories Berhasil
+        -Memastikan data story tidak null

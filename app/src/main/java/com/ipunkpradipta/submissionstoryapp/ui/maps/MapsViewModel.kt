@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.ui
+package com.ipunkpradipta.submissionstoryapp.ui.maps
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

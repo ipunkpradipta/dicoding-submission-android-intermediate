@@ -57,7 +57,7 @@ class AuthViewModelTest{
 
 
     @Test
-    fun `when Register Is Success Return Result Success`() = run{
+    fun `whenRegisterIsSuccessReturnResultSuccess`() = run{
         val expected = MutableLiveData<Result<DefaultResponse>>()
         expected.value = Result.Success(dummyResponseRegister)
         `when`(authRepository.postRegister(dummyRequestRegister)).thenReturn(expected)
@@ -70,7 +70,7 @@ class AuthViewModelTest{
     }
 
     @Test
-    fun `when Register Failed Return Result Error`() = run{
+    fun `whenRegisterFailedReturnResultError`() = run{
         val expected = MutableLiveData<Result<DefaultResponse>>()
         expected.value = Result.Error("ERROR")
         `when`(authRepository.postRegister(dummyRequestRegister)).thenReturn(expected)
@@ -83,7 +83,7 @@ class AuthViewModelTest{
     }
 
     @Test
-    fun `when Login Success return ResultSuccess`(){
+    fun `whenLoginSuccessreturnResultSuccess`(){
         val expected = MutableLiveData<Result<LoginResponse>>()
         expected.value = Result.Success(dummyResponseLogin)
         `when`(authRepository.postLogin(dummyRequestLogin)).thenReturn(expected)
@@ -93,7 +93,7 @@ class AuthViewModelTest{
     }
 
     @Test
-    fun `when Login Failed return ResultError`(){
+    fun `whenLoginFailedreturnResultError`(){
         val expected = MutableLiveData<Result<LoginResponse>>()
         expected.value = Result.Error("NETWORK_ERROR")
         `when`(authRepository.postLogin(dummyRequestLogin)).thenReturn(expected)
@@ -103,7 +103,7 @@ class AuthViewModelTest{
     }
 
     @Test
-    fun `when getToken Is Not Empty`(){
+    fun `whengetTokenIsNotEmpty`(){
         val expected = flowOf(dummyToken).asLiveData()
         `when`(authRepository.getTokenAuth()).thenReturn(expected)
 

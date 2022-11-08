@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.ui
+package com.ipunkpradipta.submissionstoryapp.ui.stories
 
 import androidx.lifecycle.*
 import androidx.paging.PagingData

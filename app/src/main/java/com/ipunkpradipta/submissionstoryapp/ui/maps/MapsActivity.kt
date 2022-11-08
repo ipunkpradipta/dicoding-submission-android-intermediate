@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.ui
+package com.ipunkpradipta.submissionstoryapp.ui.maps
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ipunkpradipta.submissionstoryapp.R
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityMapsBinding
+import com.ipunkpradipta.submissionstoryapp.ui.ViewModelFactoryMaps
 import java.io.IOException
 import java.util.*
 

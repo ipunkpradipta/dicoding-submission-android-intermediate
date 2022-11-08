@@ -1,11 +1,6 @@
 package com.ipunkpradipta.submissionstoryapp.ui
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.AsyncPagingDataDiffer
@@ -16,15 +11,16 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import com.ipunkpradipta.submissionstoryapp.MainDispatcherRule
 import com.ipunkpradipta.submissionstoryapp.StoriesDummy
 import com.ipunkpradipta.submissionstoryapp.adapter.StoriesPagerAdapter
-import com.ipunkpradipta.submissionstoryapp.data.AuthPreferences
+import com.ipunkpradipta.submissionstoryapp.data.Result
 import com.ipunkpradipta.submissionstoryapp.data.StoriesRepository
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
 import com.ipunkpradipta.submissionstoryapp.getOrAwaitValue
 import com.ipunkpradipta.submissionstoryapp.network.StoryItem
+import com.ipunkpradipta.submissionstoryapp.ui.stories.StoriesViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 
@@ -32,6 +28,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
@@ -47,18 +44,21 @@ class StoriesViewModelTest {
     private lateinit var storiesRepository: StoriesRepository
     private lateinit var storiesViewModel: StoriesViewModel
 
+    private val dummyRequestPostStories = StoriesDummy.generateDummyPostStories()
+    private val dummyResponsePostStories = StoriesDummy.generateDummyResponsePostStories()
+
     @Before
     fun setUp() {
         storiesViewModel = StoriesViewModel(storiesRepository)
     }
 
     @Test
-    fun `when Get Stories Should Not Null and Return Success`() = runTest {
+    fun `whenGetStoriesShouldNotNullandReturnSuccess`() = runTest {
         val dummyStories = StoriesDummy.generateDummyStoriesEntity()
         val data: PagingData<StoryItem> = StoryPagingSource.snapshot(dummyStories)
         val expectedQuote = MutableLiveData<PagingData<StoryItem>>()
-
         expectedQuote.value = data
+
         Mockito.`when`(storiesRepository.getStories("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLTJ2ZzVUMkFEb1NGQ1dZUF8iLCJpYXQiOjE2Njc2MzAzNTJ9.8SjH5C5ih3nUYzmHSJmhPVnwpeySYEcXmgIRhm6WgBg")).thenReturn(expectedQuote)
 
         val storiesViewModel = StoriesViewModel(storiesRepository)
@@ -76,6 +76,31 @@ class StoriesViewModelTest {
         Assert.assertEquals(dummyStories.size, differ.snapshot().size)
         Assert.assertEquals(dummyStories[0].id, differ.snapshot()[0]?.id)
 
+    }
+
+    @Test
+    fun `whenUploadImageOrPostNewStoriesSuccessShouldReturnSuccess`() = runTest {
+        val expected = MutableLiveData<Result<DefaultResponse>>()
+        expected.value = Result.Success(dummyResponsePostStories)
+        `when`(storiesViewModel.postStories(dummyRequestPostStories)).thenReturn(expected)
+
+        val actualResponse = storiesViewModel.postStories(dummyRequestPostStories).getOrAwaitValue()
+
+        Mockito.verify(storiesRepository).postStories(dummyRequestPostStories)
+        Assert.assertTrue(actualResponse is Result.Success)
+        Assert.assertFalse(actualResponse is Result.Error)
+    }
+
+    @Test
+    fun `whenUploadImageOrPostNewStoriesFailedShouldReturnError`() = runTest {
+        val expected = MutableLiveData<Result<DefaultResponse>>()
+        expected.value = Result.Error("NerworkError")
+        `when`(storiesViewModel.postStories(dummyRequestPostStories)).thenReturn(expected)
+
+        val actualResponse = storiesViewModel.postStories(dummyRequestPostStories).getOrAwaitValue()
+
+        Mockito.verify(storiesRepository).postStories(dummyRequestPostStories)
+        Assert.assertTrue(actualResponse is Result.Error)
     }
 }
 

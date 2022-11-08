@@ -1,6 +1,5 @@
 package com.ipunkpradipta.submissionstoryapp
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,19 +9,15 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ipunkpradipta.submissionstoryapp.adapter.LoadingStateAdapter
 import com.ipunkpradipta.submissionstoryapp.adapter.StoriesPagerAdapter
-import com.ipunkpradipta.submissionstoryapp.data.AuthPreferences
 import com.ipunkpradipta.submissionstoryapp.ui.auth.LoginActivity
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityMainBinding
-import com.ipunkpradipta.submissionstoryapp.ui.NewStory
-import com.ipunkpradipta.submissionstoryapp.ui.MapsActivity
-import com.ipunkpradipta.submissionstoryapp.ui.StoriesViewModel
+import com.ipunkpradipta.submissionstoryapp.ui.stories.NewStory
+import com.ipunkpradipta.submissionstoryapp.ui.maps.MapsActivity
+import com.ipunkpradipta.submissionstoryapp.ui.stories.StoriesViewModel
 import com.ipunkpradipta.submissionstoryapp.ui.ViewModelFactory
 import com.ipunkpradipta.submissionstoryapp.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
