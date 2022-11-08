@@ -6,3 +6,10 @@ AuthViewModel
     3.Ketika Login Berhasil
         -Memastikan mengembalikan Result.Success
         -Memastikan token tersimpan
+        -Memastikan pengambilan token tidak null
+
+StoriesViewModel
+    1.Ketika Get Stories Berhasil
+        -Memastikan method yang dipanggil adalah StoriesViewModel.getStories
+        -Memastikan data story tidak null
+        -Memastikan total data asli dan dummy sama

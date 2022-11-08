@@ -27,19 +27,29 @@ import com.ipunkpradipta.submissionstoryapp.R
 import com.ipunkpradipta.submissionstoryapp.ui.auth.LoginActivity
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityNewStoryBinding
 import com.ipunkpradipta.submissionstoryapp.data.AuthPreferences
-import com.ipunkpradipta.submissionstoryapp.MainViewModel
+import com.ipunkpradipta.submissionstoryapp.data.PostStoriesRequest
+import com.ipunkpradipta.submissionstoryapp.data.Result
+import com.ipunkpradipta.submissionstoryapp.ui.auth.AuthViewModel
+import com.ipunkpradipta.submissionstoryapp.utils.animateVisibility
 import com.ipunkpradipta.submissionstoryapp.utils.rotateBitmap
 import com.ipunkpradipta.submissionstoryapp.utils.uriToFile
+import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "authentication")
+@AndroidEntryPoint
 class NewStory : AppCompatActivity() {
 
     private lateinit var binding:ActivityNewStoryBinding
+    private val authViewModel: AuthViewModel by viewModels()
     private val storiesViewModel: StoriesViewModel by viewModels {
         ViewModelFactory(this)
     }
-    private lateinit var mainViewModel: MainViewModel
+
     private lateinit var token: String
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude:Double = 0.0
@@ -61,35 +71,29 @@ class NewStory : AppCompatActivity() {
             )
         }
 
-        val authPref = AuthPreferences.getInstance(dataStore)
-        mainViewModel = MainViewModel(authPref)
-        mainViewModel.getTokenString().observe(this) { tokenString: String ->
-            if (tokenString.isEmpty()) {
-                val intentAuth = Intent(this@NewStory, LoginActivity::class.java)
-                intentAuth.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(intentAuth)
-            }else{
-                token = tokenString
+        authViewModel.getTokenAuth().observe(this){
+            if(it.isNotEmpty()){
+                token = it
             }
         }
 
-        storiesViewModel.isLoading.observe(this){
-            showLoading(it)
-        }
-
-        storiesViewModel.snackbarText.observe(this){
-            it.getContentIfNotHandled()?.let { message ->
-                showNotification(message)
-            }
-        }
-
-        storiesViewModel.isError.observe(this){
-            if(!it){
-                val intent = Intent(this@NewStory, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(intent)
-            }
-        }
+//        storiesViewModel.isLoading.observe(this){
+//            showLoading(it)
+//        }
+//
+//        storiesViewModel.snackbarText.observe(this){
+//            it.getContentIfNotHandled()?.let { message ->
+//                showNotification(message)
+//            }
+//        }
+//
+//        storiesViewModel.isError.observe(this){
+//            if(!it){
+//                val intent = Intent(this@NewStory, MainActivity::class.java)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                startActivity(intent)
+//            }
+//        }
 
         binding.btnCamera.setOnClickListener{ startCameraX() }
         binding.btnGallery.setOnClickListener{ startGallery() }
@@ -178,12 +182,53 @@ class NewStory : AppCompatActivity() {
     }
 
     private fun uploadImage() {
-        if (getFile != null) {
-            Log.d("TOKEN",token)
-            storiesViewModel.postStory(token, getFile!!,binding.edtDescription.text.toString(),latitude.toString(),longitude.toString())
-        } else {
+        var isValid = true
+
+        val etDesc = binding.edtDescription
+        if(etDesc.text.toString().isBlank()){
+            etDesc.error  = "Please fill the description field"
+            isValid = false
+        }
+
+        if(getFile == null){
+            isValid = false
             Toast.makeText(this@NewStory, resources.getString(R.string.error_story_add), Toast.LENGTH_SHORT).show()
         }
+
+        if(isValid){
+            val descRequestBody = etDesc.text.toString().toRequestBody("text/plain".toMediaType())
+            val latRequestBody = latitude.toString().toRequestBody("text/plain".toMediaType())
+            val lonRequestBody = longitude.toString().toRequestBody("text/plain".toMediaType())
+            val file = getFile!!
+
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                file.name,
+                requestImageFile
+            )
+            val postStoriesRequest= PostStoriesRequest(
+                token,descRequestBody,imageMultipart,latRequestBody,lonRequestBody
+            )
+            storiesViewModel.postStories(postStoriesRequest).observe(this){result->
+                Log.d("NewStoryActivity","result:$result")
+                when(result){
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        showNotification(result.error)
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        showNotification(result.data.message)
+                        startActivity(Intent(this@NewStory,MainActivity::class.java))
+                    }
+                }
+            }
+        }
+
     }
 
     override fun onRequestPermissionsResult(

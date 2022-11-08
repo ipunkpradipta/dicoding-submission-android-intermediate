@@ -3,17 +3,18 @@ package com.ipunkpradipta.submissionstoryapp.ui.auth
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.ipunkpradipta.submissionstoryapp.Dummy
 import com.ipunkpradipta.submissionstoryapp.data.AuthRepository
 import com.ipunkpradipta.submissionstoryapp.data.Result
 import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
 import com.ipunkpradipta.submissionstoryapp.network.LoginResponse
 import com.ipunkpradipta.submissionstoryapp.utils.getOrAwaitValue
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.*
+import org.junit.*
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -35,9 +36,23 @@ class AuthViewModelTest{
     private val dummyRequestLogin = Dummy.generateRequestLogin()
     private val dummyResponseLogin = Dummy.generateResponseLogin()
 
+    private val dummyToken = "ini_tokenya"
+
     @Before
     fun setUp() {
         authViewModel = AuthViewModel(authRepository)
+    }
+
+    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+
+    @Before
+    fun setupDispatcher() {
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    @After
+    fun tearDownDispatcher() {
+        Dispatchers.resetMain()
     }
 
 
@@ -87,13 +102,19 @@ class AuthViewModelTest{
         Assert.assertTrue(actualResponse is Result.Error)
     }
 
-//    @Test
-//    fun `when getToken Is Not Empty`(){
-//        val expected:LiveData<String> = "tokenNyaKuRAngPanjang"
-//        `when`(authRepository.getTokenAuth()).thenReturn(expected)
-//
-//        val actualResponse = authViewModel.getTokenAuth().getOrAwaitValue()
-//        Mockito.verify(authRepository).getTokenAuth()
-//        Assert.assertEquals(expected,actualResponse)
-//    }
+    @Test
+    fun `when getToken Is Not Empty`(){
+        val expected = flowOf(dummyToken).asLiveData()
+        `when`(authRepository.getTokenAuth()).thenReturn(expected)
+
+        val actualResponse = authViewModel.getTokenAuth().getOrAwaitValue()
+        Mockito.verify(authRepository).getTokenAuth()
+        Assert.assertNotNull(expected.toString(),actualResponse)
+    }
+
+    @Test
+    fun `whenSaveTokenSuccessfully`() = runTest{
+        authViewModel.saveTokenAuth(dummyToken)
+        Mockito.verify(authRepository).saveTokenAuth(dummyToken)
+    }
 }
