@@ -6,10 +6,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class AuthPreferences private constructor(private val dataStore: DataStore<Preferences>) {
-
-    private val TOKEN_KEY = stringPreferencesKey("token")
+class AuthPreferences @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     fun getToken(): Flow<String> {
         return dataStore.data.map { preferences ->
@@ -32,6 +31,8 @@ class AuthPreferences private constructor(private val dataStore: DataStore<Prefe
     }
 
     companion object {
+        private val TOKEN_KEY = stringPreferencesKey("token")
+
         @Volatile
         private var INSTANCE: AuthPreferences? = null
 

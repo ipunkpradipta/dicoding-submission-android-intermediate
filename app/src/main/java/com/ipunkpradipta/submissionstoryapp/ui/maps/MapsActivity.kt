@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.ui
+package com.ipunkpradipta.submissionstoryapp.ui.maps
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ipunkpradipta.submissionstoryapp.R
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityMapsBinding
+import com.ipunkpradipta.submissionstoryapp.ui.ViewModelFactoryMaps
 import java.io.IOException
 import java.util.*
 
@@ -27,7 +28,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private val boundsBuilder = LatLngBounds.Builder()
     private val mapsViewModel: MapsViewModel by viewModels {
         ViewModelFactoryMaps(this)
     }
@@ -52,11 +52,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
-
-        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
         getMyLocation()
         addStoryMarker()
@@ -83,18 +78,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun addStoryMarker(){
+        val boundsBuilder = LatLngBounds.builder()
         mapsViewModel.getAllStories().observe(this){ stories ->
             stories.map {story->
                 if(story.lat > -90.000000 && story.lat < 90.000000){
-                    val latLng = LatLng(story.lat.toDouble(), story.lon.toDouble())
-                    val addressName = getAddressName(story.lat.toDouble(), story.lon.toDouble())
+                    val latLng = LatLng(story.lat, story.lon)
+                    val addressName = getAddressName(story.lat, story.lon)
                     mMap.addMarker(MarkerOptions().position(latLng).title(story.name).snippet(addressName))
                     boundsBuilder.include(latLng)
                 }
 
             }
             val bounds: LatLngBounds = boundsBuilder.build()
-            mMap.moveCamera(
+            mMap.animateCamera(
                 CameraUpdateFactory.newLatLngBounds(
                     bounds,
                     resources.displayMetrics.widthPixels,
@@ -106,15 +102,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun getAddressName(lat: Double, lon: Double): String? {
-        Log.d("MapsActivity", "Lat: $lat")
         var addressName: String? = null
-        if(lat < -90.000000|| lat > 90.000000){
-            return addressName
+        return if(lat < -90.000000|| lat > 90.000000){
+            addressName
         }else{
             val geocoder = Geocoder(this@MapsActivity, Locale.getDefault())
             try {
                 val list = geocoder.getFromLocation(lat, lon, 1)
-                Log.d("MapsActivity", "list: $list")
                 if (list != null && list.size != 0) {
                     addressName = list[0].getAddressLine(0)
                     Log.d("MapsActivity", "getAddressName: $addressName")
@@ -122,7 +116,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-            return addressName
+            addressName
         }
 
     }

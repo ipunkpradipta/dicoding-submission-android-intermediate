@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.network
+package com.ipunkpradipta.submissionstoryapp.data.remote.response
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

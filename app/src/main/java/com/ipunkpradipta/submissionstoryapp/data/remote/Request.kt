@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.network
+package com.ipunkpradipta.submissionstoryapp.data.remote
 
 data class LoginRequest(
     val email: String,
