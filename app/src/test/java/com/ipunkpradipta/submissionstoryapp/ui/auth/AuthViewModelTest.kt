@@ -1,14 +1,13 @@
 package com.ipunkpradipta.submissionstoryapp.ui.auth
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.ipunkpradipta.submissionstoryapp.Dummy
 import com.ipunkpradipta.submissionstoryapp.data.AuthRepository
 import com.ipunkpradipta.submissionstoryapp.data.Result
 import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
-import com.ipunkpradipta.submissionstoryapp.network.LoginResponse
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.LoginResponse
 import com.ipunkpradipta.submissionstoryapp.utils.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,7 +42,7 @@ class AuthViewModelTest{
         authViewModel = AuthViewModel(authRepository)
     }
 
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setupDispatcher() {
@@ -83,7 +82,7 @@ class AuthViewModelTest{
     }
 
     @Test
-    fun `whenLoginSuccessreturnResultSuccess`(){
+    fun `whenLoginSuccessReturnResultSuccess`(){
         val expected = MutableLiveData<Result<LoginResponse>>()
         expected.value = Result.Success(dummyResponseLogin)
         `when`(authRepository.postLogin(dummyRequestLogin)).thenReturn(expected)
@@ -93,7 +92,7 @@ class AuthViewModelTest{
     }
 
     @Test
-    fun `whenLoginFailedreturnResultError`(){
+    fun `whenLoginFailedReturnResultError`(){
         val expected = MutableLiveData<Result<LoginResponse>>()
         expected.value = Result.Error("NETWORK_ERROR")
         `when`(authRepository.postLogin(dummyRequestLogin)).thenReturn(expected)
@@ -103,7 +102,7 @@ class AuthViewModelTest{
     }
 
     @Test
-    fun `whengetTokenIsNotEmpty`(){
+    fun `whenGetTokenIsNotEmpty`(){
         val expected = flowOf(dummyToken).asLiveData()
         `when`(authRepository.getTokenAuth()).thenReturn(expected)
 

@@ -2,8 +2,7 @@ package com.ipunkpradipta.submissionstoryapp
 
 import com.ipunkpradipta.submissionstoryapp.data.PostStoriesRequest
 import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
-import com.ipunkpradipta.submissionstoryapp.network.RegisterRequest
-import com.ipunkpradipta.submissionstoryapp.network.StoryItem
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody

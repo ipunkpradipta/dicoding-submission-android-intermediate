@@ -3,12 +3,8 @@ package com.ipunkpradipta.submissionstoryapp.ui.maps
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.ipunkpradipta.submissionstoryapp.StoriesDummy
-import com.ipunkpradipta.submissionstoryapp.data.AuthRepository
-import com.ipunkpradipta.submissionstoryapp.data.Result
 import com.ipunkpradipta.submissionstoryapp.data.StoriesRepository
-import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
-import com.ipunkpradipta.submissionstoryapp.network.StoryItem
-import com.ipunkpradipta.submissionstoryapp.ui.auth.AuthViewModel
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 import com.ipunkpradipta.submissionstoryapp.utils.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,7 +13,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -30,7 +25,7 @@ class MapsViewModelTest{
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    val dummyStories = StoriesDummy.generateDummyStoriesEntity()
+    private val dummyStories = StoriesDummy.generateDummyStoriesEntity()
 
     @Mock
     private lateinit var storiesRepository: StoriesRepository
@@ -41,7 +36,7 @@ class MapsViewModelTest{
         mapsViewModel = MapsViewModel(storiesRepository)
     }
 
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setupDispatcher() {

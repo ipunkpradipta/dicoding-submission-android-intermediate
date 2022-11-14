@@ -2,8 +2,8 @@ package com.ipunkpradipta.submissionstoryapp.ui.auth
 
 import androidx.lifecycle.*
 import com.ipunkpradipta.submissionstoryapp.data.AuthRepository
-import com.ipunkpradipta.submissionstoryapp.network.*
-import com.ipunkpradipta.submissionstoryapp.utils.Event
+import com.ipunkpradipta.submissionstoryapp.data.remote.LoginRequest
+import com.ipunkpradipta.submissionstoryapp.data.remote.RegisterRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,7 +29,4 @@ class AuthViewModel @Inject constructor(private val authRepository: AuthReposito
 
     fun getTokenAuth():LiveData<String> = authRepository.getTokenAuth()
 
-    companion object{
-        private const val TAG = "AuthViewModel"
-    }
 }

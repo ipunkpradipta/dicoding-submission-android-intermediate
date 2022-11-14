@@ -1,4 +1,4 @@
-package com.ipunkpradipta.submissionstoryapp.ui
+package com.ipunkpradipta.submissionstoryapp.ui.stories
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
@@ -15,8 +15,7 @@ import com.ipunkpradipta.submissionstoryapp.data.Result
 import com.ipunkpradipta.submissionstoryapp.data.StoriesRepository
 import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
 import com.ipunkpradipta.submissionstoryapp.getOrAwaitValue
-import com.ipunkpradipta.submissionstoryapp.network.StoryItem
-import com.ipunkpradipta.submissionstoryapp.ui.stories.StoriesViewModel
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -59,7 +58,7 @@ class StoriesViewModelTest {
         val expectedQuote = MutableLiveData<PagingData<StoryItem>>()
         expectedQuote.value = data
 
-        Mockito.`when`(storiesRepository.getStories("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLTJ2ZzVUMkFEb1NGQ1dZUF8iLCJpYXQiOjE2Njc2MzAzNTJ9.8SjH5C5ih3nUYzmHSJmhPVnwpeySYEcXmgIRhm6WgBg")).thenReturn(expectedQuote)
+        `when`(storiesRepository.getStories("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLTJ2ZzVUMkFEb1NGQ1dZUF8iLCJpYXQiOjE2Njc2MzAzNTJ9.8SjH5C5ih3nUYzmHSJmhPVnwpeySYEcXmgIRhm6WgBg")).thenReturn(expectedQuote)
 
         val storiesViewModel = StoriesViewModel(storiesRepository)
         val actualQuote: PagingData<StoryItem> = storiesViewModel.getStories("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLTJ2ZzVUMkFEb1NGQ1dZUF8iLCJpYXQiOjE2Njc2MzAzNTJ9.8SjH5C5ih3nUYzmHSJmhPVnwpeySYEcXmgIRhm6WgBg").getOrAwaitValue()
@@ -82,7 +81,7 @@ class StoriesViewModelTest {
     fun `whenUploadImageOrPostNewStoriesSuccessShouldReturnSuccess`() = runTest {
         val expected = MutableLiveData<Result<DefaultResponse>>()
         expected.value = Result.Success(dummyResponsePostStories)
-        `when`(storiesViewModel.postStories(dummyRequestPostStories)).thenReturn(expected)
+        `when`(storiesRepository.postStories(dummyRequestPostStories)).thenReturn(expected)
 
         val actualResponse = storiesViewModel.postStories(dummyRequestPostStories).getOrAwaitValue()
 
@@ -95,7 +94,7 @@ class StoriesViewModelTest {
     fun `whenUploadImageOrPostNewStoriesFailedShouldReturnError`() = runTest {
         val expected = MutableLiveData<Result<DefaultResponse>>()
         expected.value = Result.Error("NerworkError")
-        `when`(storiesViewModel.postStories(dummyRequestPostStories)).thenReturn(expected)
+        `when`(storiesRepository.postStories(dummyRequestPostStories)).thenReturn(expected)
 
         val actualResponse = storiesViewModel.postStories(dummyRequestPostStories).getOrAwaitValue()
 

@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.ipunkpradipta.submissionstoryapp.R
 import com.ipunkpradipta.submissionstoryapp.data.Result
-import com.ipunkpradipta.submissionstoryapp.network.RegisterRequest
+import com.ipunkpradipta.submissionstoryapp.data.remote.RegisterRequest
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -82,14 +82,6 @@ class RegisterActivity : AppCompatActivity() {
             message,
             Snackbar.LENGTH_SHORT
         ).show()
-    }
-
-    private fun showLoading(isLoading:Boolean){
-        if(isLoading){
-            binding.progressBar.visibility = View.VISIBLE
-        }else{
-            binding.progressBar.visibility = View.GONE
-        }
     }
 
     private fun View.hideKeyboard() {

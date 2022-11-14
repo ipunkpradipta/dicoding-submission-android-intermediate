@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiService
-import com.ipunkpradipta.submissionstoryapp.network.StoryItem
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 
-class StoriesPagingSource(private val apiService: ApiService, private val token:String):PagingSource<Int,StoryItem>() {
+class StoriesPagingSource(private val apiService: ApiService, private val token:String):PagingSource<Int, StoryItem>() {
     override fun getRefreshKey(state: PagingState<Int, StoryItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)

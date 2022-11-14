@@ -9,7 +9,7 @@ import androidx.room.withTransaction
 import com.ipunkpradipta.submissionstoryapp.data.local.entity.RemoteKeys
 import com.ipunkpradipta.submissionstoryapp.data.local.room.StoriesDatabase
 import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiService
-import com.ipunkpradipta.submissionstoryapp.network.StoryItem
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 
 @OptIn(ExperimentalPagingApi::class)
 class StoriesRemoteMediator(private val database: StoriesDatabase, private val apiService: ApiService, private val token:String) : RemoteMediator<Int, StoryItem>() {
@@ -40,7 +40,7 @@ class StoriesRemoteMediator(private val database: StoriesDatabase, private val a
                 nextKey
             }
         }
-        Log.d("StoriesRemoteMediator","RUN CALL API")
+
         try {
             val responseData = apiService.getStories(token,page, state.config.pageSize,1)
             val endOfPaginationReached = responseData.body()?.listStory?.isEmpty()
@@ -57,11 +57,11 @@ class StoriesRemoteMediator(private val database: StoriesDatabase, private val a
                 }
 
                 if (keys != null) {
-                    database.remoteKeysDao().insertAll(keys!!)
+                    database.remoteKeysDao().insertAll(keys)
                 }
 
                 val item = responseData.body()?.listStory?.map {
-                    StoryItem(it.id.toString(),it.name.toString(),it.description.toString(),it.photoUrl.toString(),it.createdAt.toString(),
+                    StoryItem(it.id,it.name,it.description,it.photoUrl,it.createdAt,
                         it.lat,it.lon
                     )
                 }

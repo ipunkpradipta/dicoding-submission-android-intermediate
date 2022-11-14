@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ipunkpradipta.submissionstoryapp.ui.stories.DetailStoryActivity
 import com.ipunkpradipta.submissionstoryapp.R
-import com.ipunkpradipta.submissionstoryapp.network.StoryItem
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 import com.ipunkpradipta.submissionstoryapp.utils.loadImage
 
 class StoriesPagerAdapter: PagingDataAdapter<StoryItem,StoriesPagerAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -37,7 +37,7 @@ class StoriesPagerAdapter: PagingDataAdapter<StoryItem,StoriesPagerAdapter.ViewH
         private val ivPhotoUrl: ImageView = view.findViewById(R.id.iv_item_photo)
         private val tvName: TextView = view.findViewById(R.id.tv_item_name)
 
-        fun bind(data:StoryItem){
+        fun bind(data: StoryItem){
             ivPhotoUrl.loadImage(data.photoUrl)
             tvName.text = data.name
             itemView.setOnClickListener{

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ipunkpradipta.submissionstoryapp.data.local.entity.RemoteKeys
-import com.ipunkpradipta.submissionstoryapp.network.StoryItem
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 
 @Database(
     entities = [StoryItem::class, RemoteKeys::class],

@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.ipunkpradipta.submissionstoryapp.MainActivity
 import com.ipunkpradipta.submissionstoryapp.R
-import com.ipunkpradipta.submissionstoryapp.network.LoginRequest
+import com.ipunkpradipta.submissionstoryapp.data.remote.LoginRequest
 import com.ipunkpradipta.submissionstoryapp.databinding.ActivityLoginBinding
 import com.ipunkpradipta.submissionstoryapp.data.Result
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.apply {
             registerButton.setOnClickListener {
-                handleClickButtonRegist()
+                handleClickButtonRegister()
             }
             loginButton.setOnClickListener {
                 it.hideKeyboard()
@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleClickButtonRegist() {
+    private fun handleClickButtonRegister() {
         val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
         startActivity(intent,ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
     }

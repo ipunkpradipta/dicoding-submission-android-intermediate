@@ -7,20 +7,7 @@ import com.ipunkpradipta.submissionstoryapp.data.PostStoriesRequest
 import com.ipunkpradipta.submissionstoryapp.data.Result
 import com.ipunkpradipta.submissionstoryapp.data.StoriesRepository
 import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
-import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiConfig
-import com.ipunkpradipta.submissionstoryapp.network.*
-import com.ipunkpradipta.submissionstoryapp.utils.Event
-import com.ipunkpradipta.submissionstoryapp.utils.reduceFileImage
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.File
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 
 class StoriesViewModel(private val storiesRepository: StoriesRepository): ViewModel() {
 

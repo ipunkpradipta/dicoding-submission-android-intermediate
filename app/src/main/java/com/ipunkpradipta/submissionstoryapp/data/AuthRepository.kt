@@ -7,9 +7,9 @@ import androidx.lifecycle.liveData
 import com.google.gson.GsonBuilder
 import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
 import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiService
-import com.ipunkpradipta.submissionstoryapp.network.LoginRequest
-import com.ipunkpradipta.submissionstoryapp.network.LoginResponse
-import com.ipunkpradipta.submissionstoryapp.network.RegisterRequest
+import com.ipunkpradipta.submissionstoryapp.data.remote.LoginRequest
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.LoginResponse
+import com.ipunkpradipta.submissionstoryapp.data.remote.RegisterRequest
 import org.json.JSONException
 import retrofit2.HttpException
 import java.io.IOException
@@ -23,7 +23,7 @@ class AuthRepository @Inject constructor(private val apiService: ApiService, pri
         try {
             val response = apiService.postRegister(registerRequest)
             emit(Result.Success(response))
-            Log.d("AuthRepository", "result: ${response.toString()} ")
+            Log.d("AuthRepository", "result: $response ")
         }catch (throwable: Throwable){
             when (throwable) {
                 is IOException -> Result.Error("NetworkError")

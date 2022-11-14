@@ -8,9 +8,7 @@ import com.google.gson.GsonBuilder
 import com.ipunkpradipta.submissionstoryapp.data.local.room.StoriesDatabase
 import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
 import com.ipunkpradipta.submissionstoryapp.data.remote.retrofit.ApiService
-import com.ipunkpradipta.submissionstoryapp.network.StoryItem
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoryItem
 import org.json.JSONException
 import retrofit2.HttpException
 import java.io.IOException
@@ -36,9 +34,9 @@ class StoriesRepository(private val storiesDatabase: StoriesDatabase, private va
         try {
             val response = apiService.uploadImage("Bearer ${request.token}",request.file,request.desc,request.lat,request.lon)
             emit(Result.Success(response))
-            Log.d("StoriesRepository", "result: ${response.toString()} ")
+            Log.d("StoriesRepository", "result: $response ")
         }catch (throwable: Throwable){
-            Log.d("StoriesRepository", "throwable: ${throwable.toString()} ")
+            Log.d("StoriesRepository", "throwable: $throwable ")
             when (throwable) {
                 is IOException -> Result.Error("NetworkError")
                 is HttpException -> {

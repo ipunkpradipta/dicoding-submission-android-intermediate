@@ -1,6 +1,5 @@
 package com.ipunkpradipta.submissionstoryapp.utils
 
-import android.animation.ObjectAnimator
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
@@ -9,7 +8,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
-import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.ipunkpradipta.submissionstoryapp.R
@@ -107,12 +105,5 @@ fun ImageView.loadImage(url: String?) {
     Glide.with(this.context)
         .load(url)
         .into(this)
-}
-
-fun View.animateVisibility(isVisible:Boolean,duration:Long=400){
-    ObjectAnimator
-        .ofFloat(this, View.ALPHA, if (isVisible) 1f else 0f)
-        .setDuration(duration)
-        .start()
 }
 

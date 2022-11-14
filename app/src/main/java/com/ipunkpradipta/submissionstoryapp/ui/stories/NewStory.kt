@@ -73,24 +73,6 @@ class NewStory : AppCompatActivity() {
             }
         }
 
-//        storiesViewModel.isLoading.observe(this){
-//            showLoading(it)
-//        }
-//
-//        storiesViewModel.snackbarText.observe(this){
-//            it.getContentIfNotHandled()?.let { message ->
-//                showNotification(message)
-//            }
-//        }
-//
-//        storiesViewModel.isError.observe(this){
-//            if(!it){
-//                val intent = Intent(this@NewStory, MainActivity::class.java)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//                startActivity(intent)
-//            }
-//        }
-
         binding.btnCamera.setOnClickListener{ startCameraX() }
         binding.btnGallery.setOnClickListener{ startGallery() }
         binding.btnUpload.setOnClickListener{ uploadImage() }
@@ -196,7 +178,7 @@ class NewStory : AppCompatActivity() {
             val latRequestBody = latitude.toString().toRequestBody("text/plain".toMediaType())
             val lonRequestBody = longitude.toString().toRequestBody("text/plain".toMediaType())
 
-            val file = reduceFileImage(getFile!! as File)
+            val file = reduceFileImage(getFile!!)
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "photo",
@@ -247,14 +229,6 @@ class NewStory : AppCompatActivity() {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun showLoading(isLoading:Boolean){
-        if(isLoading){
-            binding.progressBar.visibility = View.VISIBLE
-        }else{
-            binding.progressBar.visibility = View.GONE
-        }
     }
 
     private fun showNotification(message:String){

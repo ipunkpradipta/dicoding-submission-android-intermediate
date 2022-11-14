@@ -1,10 +1,12 @@
 package com.ipunkpradipta.submissionstoryapp.data.remote.retrofit
 
+import com.ipunkpradipta.submissionstoryapp.data.remote.LoginRequest
+import com.ipunkpradipta.submissionstoryapp.data.remote.RegisterRequest
 import com.ipunkpradipta.submissionstoryapp.data.remote.response.DefaultResponse
-import com.ipunkpradipta.submissionstoryapp.network.*
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.LoginResponse
+import com.ipunkpradipta.submissionstoryapp.data.remote.response.StoriesResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
